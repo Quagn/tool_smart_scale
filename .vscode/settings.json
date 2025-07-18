@@ -12,6 +12,10 @@
         "initializer_list": "c",
         "ranges": "c",
         "regex": "c",
-        "init.h": "c"
+        "init.h": "c",
+        "user_interface.h": "c",
+        "peripheral_config.h": "c",
+        "arduino.h": "c",
+        "spi.h": "c"
     }
 }
