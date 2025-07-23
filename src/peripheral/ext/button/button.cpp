@@ -1,6 +1,7 @@
 #include "button.h"
 
-void button_init(button_t* btn, uint8_t pin, bool active_low) {
+void button_init(button_t* btn, uint8_t pin, bool active_low) 
+{
     btn->pin = pin;
     btn->active_low = active_low;
     btn->current_state = false;
@@ -14,7 +15,8 @@ void button_init(button_t* btn, uint8_t pin, bool active_low) {
     pinMode(pin, INPUT_PULLUP);
 }
 
-void button_update(button_t* btn) {
+void button_update(button_t* btn) 
+{
     // Đọc trạng thái thô của button
     bool raw_state = digitalRead(btn->pin);
     
@@ -22,15 +24,19 @@ void button_update(button_t* btn) {
     bool pressed = btn->active_low ? !raw_state : raw_state;
     
     // Debounce logic
-    if (pressed != btn->last_state) {
+    if (pressed != btn->last_state) 
+    {
         btn->last_debounce_time = millis();
     }
     
-    if ((millis() - btn->last_debounce_time) > BUTTON_DEBOUNCE_DELAY) {
-        if (pressed != btn->debounced_state) {
+    if ((millis() - btn->last_debounce_time) > BUTTON_DEBOUNCE_DELAY) 
+    {
+        if (pressed != btn->debounced_state) 
+        {
             btn->debounced_state = pressed;
             
-            if (pressed) {
+            if (pressed) 
+            {
                 // Button được nhấn
                 btn->press_start_time = millis();
                 btn->long_press_triggered = false;
@@ -39,8 +45,10 @@ void button_update(button_t* btn) {
     }
     
     // Kiểm tra long press
-    if (btn->debounced_state && !btn->long_press_triggered) {
-        if ((millis() - btn->press_start_time) >= BUTTON_LONG_PRESS_TIME) {
+    if (btn->debounced_state && !btn->long_press_triggered) 
+    {
+        if ((millis() - btn->press_start_time) >= BUTTON_LONG_PRESS_TIME) 
+        {
             btn->long_press_triggered = true;
         }
     }
@@ -49,32 +57,40 @@ void button_update(button_t* btn) {
     btn->last_state = pressed;
 }
 
-button_state_t button_read_state(button_t* btn) {
-    if (btn->long_press_triggered) {
+button_state_t button_read_state(button_t* btn)
+{
+    if (btn->long_press_triggered) 
+    {
         return BUTTON_LONG_PRESSED;
-    } else if (btn->current_state) {
+    } else if (btn->current_state) 
+    {
         return BUTTON_PRESSED;
-    } else {
+    } else 
+    {
         return BUTTON_RELEASED;
     }
 }
 
-button_event_t button_read_event(button_t* btn) {
+button_event_t button_read_event(button_t* btn) 
+{
     static bool last_debounced_state = false;
     static bool last_long_press_state = false;
     
     button_event_t event = BUTTON_EVENT_NONE;
     
     // Kiểm tra long press event
-    if (btn->long_press_triggered && !last_long_press_state) {
+    if (btn->long_press_triggered && !last_long_press_state) 
+    {
         event = BUTTON_EVENT_LONG_PRESS;
     }
     // Kiểm tra press event
-    else if (btn->debounced_state && !last_debounced_state) {
+    else if (btn->debounced_state && !last_debounced_state) 
+    {
         event = BUTTON_EVENT_PRESS;
     }
     // Kiểm tra release event
-    else if (!btn->debounced_state && last_debounced_state) {
+    else if (!btn->debounced_state && last_debounced_state) 
+    {
         event = BUTTON_EVENT_RELEASE;
     }
     
@@ -84,14 +100,17 @@ button_event_t button_read_event(button_t* btn) {
     return event;
 }
 
-bool button_is_pressed(button_t* btn) {
+bool button_is_pressed(button_t* btn) 
+{
     return btn->current_state;
 }
 
-bool button_is_released(button_t* btn) {
+bool button_is_released(button_t* btn) 
+{
     return !btn->current_state;
 }
 
-bool button_is_long_pressed(button_t* btn) {
+bool button_is_long_pressed(button_t* btn) 
+{
     return btn->long_press_triggered;
-} 
+}

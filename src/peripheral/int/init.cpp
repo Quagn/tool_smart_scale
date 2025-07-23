@@ -2,10 +2,10 @@
 
 void GPIO_Init(void) 
 {
-    pinMode(BUTTON_1_PIN, INPUT_PULLUP);
-    pinMode(BUTTON_2_PIN, INPUT_PULLUP);
-    pinMode(LED_PIN, OUTPUT);
-    digitalWrite(LED_PIN, LOW);
+    // pinMode(BUTTON_1_PIN, INPUT_PULLUP);
+    // pinMode(BUTTON_2_PIN, INPUT_PULLUP);
+    // pinMode(LED_PIN, OUTPUT);
+    // digitalWrite(LED_PIN, LOW);
 }
 
 // void SPI_Init(void) 
